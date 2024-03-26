@@ -46,9 +46,7 @@
 ```
 {
     "success": true,
-    "exception": null,
-    "nickname": "Andrey",
-    "accessToken": "JusOh2nRK1kZpxzK"
+    "exception": null
 }
 ```
 
@@ -431,7 +429,18 @@
 + Response
 ```
 {
-    "success": true,
-    "exception": null,
+    "users":[
+    {
+    "id":"122",
+    "nickname":"Valera",
+    "email":"valerkin@gmail.com",
+    "phone":"727772912"
+    },
+    {
+    "id":"45",
+    "nickname":"Pasha",
+    "email":"PashaKasha@gmail.com",
+    "phone":"88005353535"
+    }]
 }
 ```
