@@ -31,3 +31,27 @@
 16. **Получение списка отслеживающих**
     Пользователь отправляет запрос на получение списка пользователей, отслеживающих собаку по выборке "связей" из таблицы UsersDogs
 **Реализованные запросы**:
+## Base Response Format
+
++ Success
+
+```
+{
+    "success": true,
+    "exception": null,
+    "nickname": "Andrey",
+    "accessToken": "JusOh2nRK1kZpxzK"
+}
+```
+
++ Error
+```
+{
+    "success": false,
+    "exception": {
+        "message": "Unknown Error"
+    }
+}
+```
+
+
