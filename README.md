@@ -328,4 +328,16 @@
     "exception": null,
 }
 ```
+Для работы приложения установите следующие библиотеки:
+
+1. sqlalchemy
+```
+pip install sqlalchemy
+```
+2. fastapi
+```
+pip install fastapi
+```
+
+
 
