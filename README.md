@@ -61,10 +61,7 @@
 + Error
 ```
 {
-    "success": false,
-    "exception": {
-        "message": "Unknown Error"
-    }
+    "detail": "Unknown Error"
 }
 ```
 
@@ -151,7 +148,7 @@
 ```
 
 ### Getting dog's status
-```/dogs/status```
+```/dogs/{dogs_id}/data```
 
 + Request
 ```
@@ -167,7 +164,7 @@
     "name":"Bobik",
     "collar_id":"2311",
     "description":"Black bastard of German Shepherd and mongrel dog",
-    "tasks":[{"id":82},{"id":15},{"id":92}],
+    "tasks":[...],
     "latitude":"37.23213",
     "longitude":"55.83231",
     "date":"2024-03-26 18:15:00"
@@ -175,7 +172,7 @@
 ```
 
 ### Getting dog's list
-```/dogs/list```
+```/dogs/```
 
 + Request
 ```
@@ -204,15 +201,15 @@
 }
 ```
 
-### Getting dog's data
-```/dogs/update```
+### Setting dog's data
+```/dogs/{dog_id}/data/&ip=```
 
 + Request
 ```
 {
-    "collar_id":"2311",
     "latitude":"37.23213",
-    "longitude":"55.83231"
+    "longitude":"55.83231",
+    "datetime":"29-04-2024T18:00:00"
 }
 ```
 
@@ -247,12 +244,11 @@
 ```
 
 ### Send to verify task
-```/task/verify/send```
+```/task/{task_id}/reponses/send```
 
 + Request
 ```
 {
-    "task_id":"82",
     "proof":"Jvch1HJ.png",
     "accessToken": "P9UISH12442KID8"
 }
@@ -262,13 +258,12 @@
 ```
 {
     "success": true,
-    "exception": null,
     "task_id":"82"
 }
 ```
 
 ### Getting verify list
-```/task/verify/list```
+```/task/{task_id}/responses/```
 
 + Request
 ```
@@ -298,12 +293,11 @@
 ```
 
 ### Task status update
-```/task/update```
+```/task/{task_id}/change_status```
 
 + Request
 ```
 {
-    "task_id":"12",
     "status":"complete",
     "accessToken": "P9UISH12442KID8"
 }
@@ -318,12 +312,11 @@
 ```
 
 ### Response delete
-```/task/verify/refusing```
+```/task/responses/{response_id}/delete```
 
 + Request
 ```
 {
-    "response_id":"81",
     "accessToken": "P9UISH12442KID8"
 }
 ```
