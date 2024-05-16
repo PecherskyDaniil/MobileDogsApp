@@ -19,7 +19,7 @@ class TaskResponse(TaskResponseBase):
 class TaskBase(BaseModel):
     dog_id: int
     type: str
-    status: bool
+    
 
 
 class TaskCreate(TaskBase):
@@ -29,6 +29,6 @@ class TaskCreate(TaskBase):
 class Task(TaskBase):
     id: int
     responses:list[TaskResponse] = []
-
+    status: bool=True
     class Config:
         orm_mode = True

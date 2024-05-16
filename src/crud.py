@@ -1,11 +1,11 @@
 from sqlalchemy.orm import Session
 import hashlib
-from users import models as usersmodels
-from users import schemas as usersschemas
-from dogs import models as dogsmodels
-from dogs import schemas as dogsschemas
-from tasks import models as tasksmodels
-from tasks import schemas as tasksschemas
+from .users import models as usersmodels
+from .users import schemas as usersschemas
+from .dogs import models as dogsmodels
+from .dogs import schemas as dogsschemas
+from .tasks import models as tasksmodels
+from .tasks import schemas as tasksschemas
 
 
 
@@ -101,7 +101,7 @@ def get_tasks(db: Session, skip: int = 0, limit: int = 100):
     return db.query(tasksmodels.Task).offset(skip).limit(limit).all()
 
 def create_task(db: Session, task: tasksschemas.TaskCreate):
-    db_task = tasksmodels.Task(dog_id=task.dog_id,type=task.type, status=task.status)
+    db_task = tasksmodels.Task(dog_id=task.dog_id,type=task.type)
     db.add(db_task)
     db.commit()
     db.refresh(db_task)

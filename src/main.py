@@ -2,14 +2,14 @@ from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session
 import hashlib
 
-import crud
-from users import models as usersmodels
-from users import schemas as usersschemas
-from dogs import models as dogsmodels
-from dogs import schemas as dogsschemas
-from tasks import models as tasksmodels
-from tasks import schemas as tasksschemas
-from database import SessionLocal, engine
+from . import crud
+from .users import models as usersmodels
+from .users import schemas as usersschemas
+from .dogs import models as dogsmodels
+from .dogs import schemas as dogsschemas
+from .tasks import models as tasksmodels
+from .tasks import schemas as tasksschemas
+from .database import SessionLocal, engine
 
 usersmodels.Base.metadata.create_all(bind=engine)
 dogsmodels.Base.metadata.create_all(bind=engine)
@@ -52,7 +52,7 @@ def login_user(nickname:str,password:str, db: Session = Depends(get_db)):
 def read_users(token:str,skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
-        raise HTTPException(status_code=404, detail="Wrong token")
+        raise HTTPException(status_code=400, detail="Wrong token")
     users = crud.get_users(db, skip=skip, limit=limit)
     for user in users:
        user.token="secret"
@@ -63,18 +63,18 @@ def read_users(token:str,skip: int = 0, limit: int = 100, db: Session = Depends(
 def read_user(token:str,user_id: int, db: Session = Depends(get_db)):
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
-        raise HTTPException(status_code=404, detail="Wrong token")
+        raise HTTPException(status_code=400, detail="Wrong token")
     db_user = crud.get_user(db, user_id=user_id)
     if db_user is None:
-        raise HTTPException(status_code=404, detail="User not found")
+        raise HTTPException(status_code=400, detail="User not found")
     db_user.token="secret"
     return db_user
 
-@app.post("/dogs/")
+@app.post("/dogs/register")
 def create_dog(token:str,dog: dogsschemas.DogCreate, db: Session = Depends(get_db)):
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
-        raise HTTPException(status_code=404, detail="Wrong token")
+        raise HTTPException(status_code=400, detail="Wrong token")
     db_dog = crud.get_dog_by_collar_id(db, collar_id=dog.collar_id)
     if db_dog:
         raise HTTPException(status_code=400, detail="Dog with this collar already registered")
@@ -82,14 +82,14 @@ def create_dog(token:str,dog: dogsschemas.DogCreate, db: Session = Depends(get_d
     if db_collar is None:
         raise HTTPException(status_code=400, detail="No such collar")
     dog=crud.create_dog(db=db, dog=dog)
-    return {"succes":"true","exception":"null","dog_id":dog.id}
+    return {"success":"true","exception":"null","dog_id":dog.id}
 
 
 @app.get("/dogs/", response_model=list[dogsschemas.Dog])
 def read_dogs(token:str,near:bool=False,latitude:str ="0", longitude:str="0",skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
-        raise HTTPException(status_code=404, detail="Wrong token")
+        raise HTTPException(status_code=400, detail="Wrong token")
     if near:
        dogs = crud.get_near_dogs(db,latitude=latitude , longitude=longitude , skip=skip, limit=limit)
     else:
@@ -100,17 +100,17 @@ def read_dogs(token:str,near:bool=False,latitude:str ="0", longitude:str="0",ski
 def read_dog(token:str,dog_id: int, db: Session = Depends(get_db)):
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
-        raise HTTPException(status_code=404, detail="Wrong token")
+        raise HTTPException(status_code=400, detail="Wrong token")
     db_dog = crud.get_dog(db, dog_id=dog_id)
     if db_dog is None:
-        raise HTTPException(status_code=404, detail="Dog not found")
+        raise HTTPException(status_code=400, detail="Dog not found")
     return db_dog
 
-@app.post("/collars/")
+@app.post("/collars/register")
 def create_collar(token:str,collar: dogsschemas.CollarCreate, db: Session = Depends(get_db)):
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
-        raise HTTPException(status_code=404, detail="Wrong token")
+        raise HTTPException(status_code=400, detail="Wrong token")
     db_collar = crud.get_collar_by_ip(db, ip=collar.ip)
     if db_collar:
         raise HTTPException(status_code=400, detail="Collar with this ip already registered")
@@ -122,23 +122,23 @@ def create_collar(token:str,collar: dogsschemas.CollarCreate, db: Session = Depe
 def read_collars(token:str,skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
-        raise HTTPException(status_code=404, detail="Wrong token")
+        raise HTTPException(status_code=400, detail="Wrong token")
     collars = crud.get_collars(db, skip=skip, limit=limit)
     return collars
 
 
-@app.get("/collars/{collar_id}", response_model=dogsschemas.Dog)
+@app.get("/collars/{collar_id}", response_model=dogsschemas.Collar)
 def read_collar(token:str,collar_id: int, db: Session = Depends(get_db)):
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
-        raise HTTPException(status_code=404, detail="Wrong token")
+        raise HTTPException(status_code=400, detail="Wrong token")
     db_collar = crud.get_collar(db, collar_id=collar_id)
     if db_collar is None:
-        raise HTTPException(status_code=404, detail="Collar not found")
+        raise HTTPException(status_code=400, detail="Collar not found")
     return db_collar
 
 
-@app.post("/dogs/{dog_id}/data/", response_model=dogsschemas.DogsData)
+@app.post("/dogs/{dog_id}/data", response_model=dogsschemas.DogsData)
 def create_data_for_dog(
     ip:str,dog_id: int, item: dogsschemas.DogsDataCreate, db: Session = Depends(get_db)
 ):
@@ -147,43 +147,43 @@ def create_data_for_dog(
         raise HTTPException(status_code=400, detail="Wrong ip")
     return crud.create_dogs_data(db=db, item=item, dog_id=dog_id)
 
-@app.get("/dogs/{dog_id}/data/", response_model=list[dogsschemas.DogsData])
+@app.get("/dogs/{dog_id}/status", response_model=list[dogsschemas.DogsData])
 def get_data_for_dog(
     token:str,dog_id: int, db: Session = Depends(get_db)
 ):
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
-        raise HTTPException(status_code=404, detail="Wrong token")
+        raise HTTPException(status_code=400, detail="Wrong token")
     
     return crud.get_that_dogs_data(db=db, dog_id=dog_id)
 
 
-@app.get("/data/", response_model=list[dogsschemas.DogsData])
+@app.get("/data", response_model=list[dogsschemas.DogsData])
 def read_dogsdata(token:str,skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
-        raise HTTPException(status_code=404, detail="Wrong token")
+        raise HTTPException(status_code=400, detail="Wrong token")
     items = crud.get_dogs_data(db, skip=skip, limit=limit)
     return items
 
-@app.post("/task/create/")
+@app.post("/task/create")
 def create_task(token:str,task: tasksschemas.TaskCreate, db: Session = Depends(get_db)):
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
-        raise HTTPException(status_code=404, detail="Wrong token")
+        raise HTTPException(status_code=400, detail="Wrong token")
     dog=crud.get_dog(db, dog_id=task.dog_id)
     if dog is None:
-        raise HTTPException(status_code=404, detail="No such dog")
+        raise HTTPException(status_code=400, detail="No such dog")
 
     task=crud.create_task(db=db, task=task)
     return {"success":"true","exception":"null","task_id":task.id}
 
 
-@app.get("/task/", response_model=list[tasksschemas.Task])
+@app.get("/task", response_model=list[tasksschemas.Task])
 def read_tasks(token:str,skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
-        raise HTTPException(status_code=404, detail="Wrong token")
+        raise HTTPException(status_code=400, detail="Wrong token")
     tasks = crud.get_tasks(db, skip=skip, limit=limit)
     return tasks
 
@@ -192,31 +192,31 @@ def read_tasks(token:str,skip: int = 0, limit: int = 100, db: Session = Depends(
 def read_task(token:str,task_id: int, db: Session = Depends(get_db)):
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
-        raise HTTPException(status_code=404, detail="Wrong token")
+        raise HTTPException(status_code=400, detail="Wrong token")
     db_task = crud.get_task(db, task_id=task_id)
     if db_task is None:
-        raise HTTPException(status_code=404, detail="Task not found")
+        raise HTTPException(status_code=400, detail="Task not found")
     return db_task
 
 @app.post("/task/{task_id}/change_status")
 def change_task(token:str,task_id: int,status:bool, db: Session = Depends(get_db)):
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
-        raise HTTPException(status_code=404, detail="Wrong token")
+        raise HTTPException(status_code=400, detail="Wrong token")
     db_task = crud.get_task(db, task_id=task_id)
     if db_task is None:
-        raise HTTPException(status_code=404, detail="Task not found")
+        raise HTTPException(status_code=400, detail="Task not found")
     task=crud.change_task_status(db=db, task_id=task_id,status=status)
     return {"success":"true","exception":"null","task_id":task.id}
 
 
-@app.post("/task/{task_id}/responses/", response_model=tasksschemas.TaskResponse)
+@app.post("/task/{task_id}/responses/send", response_model=tasksschemas.TaskResponse)
 def create_task_response(
     token:str,task_id:int,item: tasksschemas.TaskResponseCreate, db: Session = Depends(get_db)
 ):
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
-        raise HTTPException(status_code=404, detail="Wrong token")
+        raise HTTPException(status_code=400, detail="Wrong token")
     db_task = crud.get_task(db, task_id=task_id)
     if db_task is None:
         raise HTTPException(status_code=400, detail="There isn't such dog's id")
@@ -226,29 +226,29 @@ def create_task_response(
 def change_task(token:str,response_id: int, db: Session = Depends(get_db)):
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
-        raise HTTPException(status_code=404, detail="Wrong token")
+        raise HTTPException(status_code=400, detail="Wrong token")
     db_response = crud.get_task_response(db, response_id=response_id)
     if db_response is None:
-        raise HTTPException(status_code=404, detail="Reponse not found")
+        raise HTTPException(status_code=400, detail="Reponse not found")
     response=crud.change_response_status(db=db, response_id=response_id,status=1)
     return {"success":"true","exception":"null","response_id":response.id}
 
 
-@app.get("/task/{task_id}/responses/", response_model=list[tasksschemas.TaskResponse])
+@app.get("/task/{task_id}/responses", response_model=list[tasksschemas.TaskResponse])
 def get_task_responses(
     token:str,task_id: int, db: Session = Depends(get_db)
 ):
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
-        raise HTTPException(status_code=404, detail="Wrong token")
+        raise HTTPException(status_code=400, detail="Wrong token")
     
     return crud.get_that_task_responses(db=db, task_id=task_id)
 
 
-@app.get("/responses/", response_model=list[tasksschemas.TaskResponse])
+@app.get("/responses", response_model=list[tasksschemas.TaskResponse])
 def read_task_responses(token:str,skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
-        raise HTTPException(status_code=404, detail="Wrong token")
+        raise HTTPException(status_code=400, detail="Wrong token")
     items = crud.get_task_responses(db, skip=skip, limit=limit)
     return items
