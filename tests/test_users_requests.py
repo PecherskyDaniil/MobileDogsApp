@@ -16,11 +16,13 @@ def test_user_register_nickname_error():
     newid=str(random.randint(1,10000))
     randphone=str(random.randint(10000000000,99999999999))
     response = client.post("/users/register",json={"nickname":"testuserzero","email":"testemail"+newid,"phone":randphone,"password":"testpassword"})
+    response = client.post("/users/register",json={"nickname":"testuserzero","email":"testemail"+newid,"phone":randphone,"password":"testpassword"})
     assert response.status_code == 400
     assert response.json()["detail"] == "Nickname already registered"
 def test_user_register_email_error():
     newid=str(random.randint(1,10000))
     randphone=str(random.randint(10000000000,99999999999))
+    response = client.post("/users/register",json={"nickname":"testuser"+newid,"email":"testemailzero@gmail.com","phone":randphone,"password":"testpassword"})
     response = client.post("/users/register",json={"nickname":"testuser"+newid,"email":"testemailzero@gmail.com","phone":randphone,"password":"testpassword"})
     assert response.status_code == 400
     assert response.json()["detail"] == "Email already registered"
@@ -28,6 +30,7 @@ def test_user_register_email_error():
 def test_user_register_phone_error():
     newid=str(random.randint(1,10000))
     randphone=str(random.randint(10000000000,99999999999))
+    response = client.post("/users/register",json={"nickname":"testuser"+newid,"email":"testemail"+newid,"phone":"00000000000","password":"testpassword"})
     response = client.post("/users/register",json={"nickname":"testuser"+newid,"email":"testemail"+newid,"phone":"00000000000","password":"testpassword"})
     assert response.status_code == 400
     assert response.json()["detail"] == "Phone already registered"

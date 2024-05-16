@@ -19,6 +19,7 @@ def test_collar_register_ip_error():
     token = client.post("/users/login?nickname=testuserzero&password=testpassword")
     token=token.json()["token"]
     response = client.post("/collars/register?token="+token,json={"ip":newip})
+    response = client.post("/collars/register?token="+token,json={"ip":newip})
     assert response.status_code == 400
     assert response.json()["detail"] == "Collar with this ip already registered"
 
