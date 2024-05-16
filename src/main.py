@@ -115,7 +115,7 @@ def create_collar(token:str,collar: dogsschemas.CollarCreate, db: Session = Depe
     if db_collar:
         raise HTTPException(status_code=400, detail="Collar with this ip already registered")
     collar=crud.create_collar(db=db, collar=collar)
-    return {"success":"true","exception":"null"}
+    return {"success":"true","exception":"null","id":collar.id}
 
 
 @app.get("/collars/", response_model=list[dogsschemas.Collar])
@@ -133,6 +133,16 @@ def read_collar(token:str,collar_id: int, db: Session = Depends(get_db)):
     if tokencheck is None:
         raise HTTPException(status_code=400, detail="Wrong token")
     db_collar = crud.get_collar(db, collar_id=collar_id)
+    if db_collar is None:
+        raise HTTPException(status_code=400, detail="Collar not found")
+    return db_collar
+
+@app.get("/collars/getbyip/{collar_ip}", response_model=dogsschemas.Collar)
+def read_collar(collar_ip:str,token:str, db: Session = Depends(get_db)):
+    tokencheck = crud.get_user_by_token(db, token=token)
+    if tokencheck is None:
+        raise HTTPException(status_code=400, detail="Wrong token")
+    db_collar = crud.get_collar_by_ip(db, ip=collar_ip)
     if db_collar is None:
         raise HTTPException(status_code=400, detail="Collar not found")
     return db_collar
