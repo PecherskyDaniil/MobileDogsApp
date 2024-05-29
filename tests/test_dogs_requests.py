@@ -6,7 +6,7 @@ from ..src.main import app
 client = TestClient(app)
 
 collarid=0
-newip=""
+newip=" "
 def test_collar_register():
     newip=str(random.randint(1000,9999))+"."+str(random.randint(1000,9999))+"."+str(random.randint(1000,9999))+"."+str(random.randint(1000,9999))
     token = client.post("/users/login?nickname=testuserzero&password=testpassword")
@@ -48,6 +48,26 @@ def test_get_collar():
     response = client.get("/collars/1?token="+token)
     assert response.status_code == 200
     assert response.json()["id"]==1
+
+def test_get_collar_by_ip():
+    token = client.post("/users/login?nickname=testuserzero&password=testpassword")
+    token=token.json()["token"]
+    response = client.get("/collars/getbyip/"+newip+"/?token="+token)
+    assert response.status_code == 200
+
+def test_get_collar_by_ip_token_error():
+    token="wrongtoken"
+    response = client.get("/collars/getbyip/"+str(newip)+"/?token="+token)
+    print(newip)
+    assert response.status_code == 400
+    assert response.json()["detail"]=="Wrong token"
+
+def test_get_collar_by_ip_ip_error():
+    token = client.post("/users/login?nickname=testuserzero&password=testpassword")
+    token=token.json()["token"]
+    response = client.get("/collars/getbyip/wrong?token="+token)
+    assert response.status_code == 400
+    assert response.json()["detail"]=="Collar not found"
 
 def test_get_collar_error_token():
     token="wrongtoken"

@@ -52,11 +52,11 @@ def test_get_task():
 def test_get_task_not_found():
     token = client.post("/users/login?nickname=testuserzero&password=testpassword")
     token=token.json()["token"]
-    response = client.get("/task/0/?token="+token)
+    response = client.get("/task/-1/?token="+token)
     assert response.status_code == 400
     assert response.json()["detail"] == "Task not found"
 
-def test_get_task_not_found():
+def test_get_task_error_token():
     token="wrongtoken"
     response = client.get("/task/0/?token="+token)
     assert response.status_code == 400
@@ -69,6 +69,23 @@ def test_task_change_status():
     taskid=str(taskid.json()[-1]["id"])
     response = client.post("/task/"+taskid+"/change_status/?token="+token+"&status="+str(0))
     assert response.status_code == 200
+
+def test_task_change_status_token_error():
+    token="wrongtoken"
+    taskid="-1"
+    response = client.post("/task/"+taskid+"/change_status/?token="+token+"&status="+str(0))
+    assert response.status_code == 400
+    assert response.json()["detail"] == "Wrong token"
+
+def test_task_change_status_error_id():
+    token = client.post("/users/login?nickname=testuserzero&password=testpassword")
+    token=token.json()["token"]
+    taskid = client.get("/task/?token="+token)
+    taskid="-1"
+    response = client.post("/task/"+taskid+"/change_status/?token="+token+"&status="+str(0))
+    assert response.status_code == 400
+    assert response.json()["detail"] == "Task not found"
+
 
 def test_add_task_response():
     token = client.post("/users/login?nickname=testuserzero&password=testpassword")
@@ -91,7 +108,7 @@ def test_add_task_response_task_id_error():
     taskid=str(0)
     response = client.post("/task/"+taskid+"/responses/send/?token="+token,json={"proof":"testproof","delete":False})
     assert response.status_code == 400
-    assert response.json()["detail"] == "There isn't such dog's id"
+    assert response.json()["detail"] == "Task not found"
 
 def test_get_responses():
     token = client.post("/users/login?nickname=testuserzero&password=testpassword")

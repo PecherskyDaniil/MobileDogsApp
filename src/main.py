@@ -56,7 +56,10 @@ def get_db():
 
 @app.post("/users/register")
 def create_user(request: Request, user: usersschemas.UserCreate, db: Session = Depends(get_db)):
-    ip = request.client.host
+    if (request.client is None):
+        ip="0"
+    else:
+        ip = request.client.host
     haship=hashlib.md5(str(ip).encode()).hexdigest()
     FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
     FORMATTER = logging.Formatter(FORMATTER_STRING)
@@ -87,7 +90,10 @@ def create_user(request: Request, user: usersschemas.UserCreate, db: Session = D
 
 @app.post("/users/login")
 def login_user(request: Request, nickname:str,password:str, db: Session = Depends(get_db)):
-    ip = request.client.host
+    if (request.client is None):
+        ip="0"
+    else:
+        ip = request.client.host
     haship=hashlib.md5(str(ip).encode()).hexdigest()
     FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
     FORMATTER = logging.Formatter(FORMATTER_STRING)
@@ -105,7 +111,10 @@ def login_user(request: Request, nickname:str,password:str, db: Session = Depend
 
 @app.get("/users/", response_model=list[usersschemas.User])
 def read_users(request: Request, token:str,skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    ip = request.client.host
+    if (request.client is None):
+        ip="0"
+    else:
+        ip = request.client.host
     haship=hashlib.md5(str(ip).encode()).hexdigest()
     FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
     FORMATTER = logging.Formatter(FORMATTER_STRING)
@@ -125,7 +134,10 @@ def read_users(request: Request, token:str,skip: int = 0, limit: int = 100, db: 
 
 @app.get("/users/{user_id}", response_model=usersschemas.User)
 def read_user(request: Request, token:str,user_id: int, db: Session = Depends(get_db)):
-    ip = request.client.host
+    if (request.client is None):
+        ip="0"
+    else:
+        ip = request.client.host
     haship=hashlib.md5(str(ip).encode()).hexdigest()
     FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
     FORMATTER = logging.Formatter(FORMATTER_STRING)
@@ -148,7 +160,10 @@ def read_user(request: Request, token:str,user_id: int, db: Session = Depends(ge
 
 @app.post("/dogs/register")
 def create_dog(request: Request, token:str,dog: dogsschemas.DogCreate, db: Session = Depends(get_db)):
-    ip = request.client.host
+    if (request.client is None):
+        ip="0"
+    else:
+        ip = request.client.host
     haship=hashlib.md5(str(ip).encode()).hexdigest()
     FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
     FORMATTER = logging.Formatter(FORMATTER_STRING)
@@ -179,7 +194,10 @@ def create_dog(request: Request, token:str,dog: dogsschemas.DogCreate, db: Sessi
 
 @app.get("/dogs/", response_model=list[dogsschemas.Dog])
 def read_dogs(request: Request, token:str,near:bool=False,latitude:str ="0", longitude:str="0",skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    ip = request.client.host
+    if (request.client is None):
+        ip="0"
+    else:
+        ip = request.client.host
     haship=hashlib.md5(str(ip).encode()).hexdigest()
     FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
     FORMATTER = logging.Formatter(FORMATTER_STRING)
@@ -202,7 +220,10 @@ def read_dogs(request: Request, token:str,near:bool=False,latitude:str ="0", lon
 
 @app.get("/dogs/{dog_id}", response_model=dogsschemas.Dog)
 def read_dog(request: Request, token:str,dog_id: int, db: Session = Depends(get_db)):
-    ip = request.client.host
+    if (request.client is None):
+        ip="0"
+    else:
+        ip = request.client.host
     haship=hashlib.md5(str(ip).encode()).hexdigest()
     FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
     FORMATTER = logging.Formatter(FORMATTER_STRING)
@@ -224,7 +245,10 @@ def read_dog(request: Request, token:str,dog_id: int, db: Session = Depends(get_
 
 @app.post("/collars/register")
 def create_collar(request: Request, token:str,collar: dogsschemas.CollarCreate, db: Session = Depends(get_db)):
-    ip = request.client.host
+    if (request.client is None):
+        ip="0"
+    else:
+        ip = request.client.host
     haship=hashlib.md5(str(ip).encode()).hexdigest()
     FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
     FORMATTER = logging.Formatter(FORMATTER_STRING)
@@ -249,7 +273,10 @@ def create_collar(request: Request, token:str,collar: dogsschemas.CollarCreate, 
 
 @app.get("/collars/", response_model=list[dogsschemas.Collar])
 def read_collars(request: Request, token:str,skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    ip = request.client.host
+    if (request.client is None):
+        ip="0"
+    else:
+        ip = request.client.host
     haship=hashlib.md5(str(ip).encode()).hexdigest()
     FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
     FORMATTER = logging.Formatter(FORMATTER_STRING)
@@ -268,7 +295,10 @@ def read_collars(request: Request, token:str,skip: int = 0, limit: int = 100, db
 
 @app.get("/collars/{collar_id}", response_model=dogsschemas.Collar)
 def read_collar(request: Request, token:str,collar_id: int, db: Session = Depends(get_db)):
-    ip = request.client.host
+    if (request.client is None):
+        ip="0"
+    else:
+        ip = request.client.host
     haship=hashlib.md5(str(ip).encode()).hexdigest()
     FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
     FORMATTER = logging.Formatter(FORMATTER_STRING)
@@ -291,7 +321,10 @@ def read_collar(request: Request, token:str,collar_id: int, db: Session = Depend
 
 @app.get("/collars/getbyip/{collar_ip}", response_model=dogsschemas.Collar)
 def read_collar(request: Request, collar_ip:str,token:str, db: Session = Depends(get_db)):
-    ip = request.client.host
+    if (request.client is None):
+        ip="0"
+    else:
+        ip = request.client.host
     haship=hashlib.md5(str(ip).encode()).hexdigest()
     FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
     FORMATTER = logging.Formatter(FORMATTER_STRING)
@@ -317,7 +350,10 @@ def read_collar(request: Request, collar_ip:str,token:str, db: Session = Depends
 def create_data_for_dog(
     request: Request, ip:str,dog_id: int, item: dogsschemas.DogsDataCreate, db: Session = Depends(get_db)
 ):
-    clientip = request.client.host
+    if (request.client is None):
+        clientip="0"
+    else:
+        clientip = request.client.host
     haship=hashlib.md5(str(clientip).encode()).hexdigest()
     FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
     FORMATTER = logging.Formatter(FORMATTER_STRING)
@@ -334,7 +370,10 @@ def create_data_for_dog(
 def get_data_for_dog(
     request: Request, token:str,dog_id: int, db: Session = Depends(get_db)
 ):
-    clientip = request.client.host
+    if (request.client is None):
+        clientip="0"
+    else:
+        clientip = request.client.host
     haship=hashlib.md5(str(clientip).encode()).hexdigest()
     FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
     FORMATTER = logging.Formatter(FORMATTER_STRING)
@@ -353,7 +392,10 @@ def get_data_for_dog(
 
 @app.get("/data", response_model=list[dogsschemas.DogsData])
 def read_dogsdata(request: Request, token:str,skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    clientip = request.client.host
+    if (request.client is None):
+        clientip="0"
+    else:
+        clientip = request.client.host
     haship=hashlib.md5(str(clientip).encode()).hexdigest()
     FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
     FORMATTER = logging.Formatter(FORMATTER_STRING)
@@ -372,7 +414,10 @@ def read_dogsdata(request: Request, token:str,skip: int = 0, limit: int = 100, d
 
 @app.post("/task/create")
 def create_task(request: Request, token:str,task: tasksschemas.TaskCreate, db: Session = Depends(get_db)):
-    clientip = request.client.host
+    if (request.client is None):
+        clientip="0"
+    else:
+        clientip = request.client.host
     haship=hashlib.md5(str(clientip).encode()).hexdigest()
     FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
     FORMATTER = logging.Formatter(FORMATTER_STRING)
@@ -399,7 +444,10 @@ def create_task(request: Request, token:str,task: tasksschemas.TaskCreate, db: S
 
 @app.get("/task", response_model=list[tasksschemas.Task])
 def read_tasks(request: Request, token:str,skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    clientip = request.client.host
+    if (request.client is None):
+        clientip="0"
+    else:
+        clientip = request.client.host
     haship=hashlib.md5(str(clientip).encode()).hexdigest()
     FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
     FORMATTER = logging.Formatter(FORMATTER_STRING)
@@ -419,7 +467,10 @@ def read_tasks(request: Request, token:str,skip: int = 0, limit: int = 100, db: 
 
 @app.get("/task/{task_id}", response_model=tasksschemas.Task)
 def read_task(request: Request, token:str,task_id: int, db: Session = Depends(get_db)):
-    clientip = request.client.host
+    if (request.client is None):
+        clientip="0"
+    else:
+        clientip = request.client.host
     haship=hashlib.md5(str(clientip).encode()).hexdigest()
     FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
     FORMATTER = logging.Formatter(FORMATTER_STRING)
@@ -443,7 +494,10 @@ def read_task(request: Request, token:str,task_id: int, db: Session = Depends(ge
 
 @app.post("/task/{task_id}/change_status")
 def change_task(request: Request, token:str,task_id: int,status:bool, db: Session = Depends(get_db)):
-    clientip = request.client.host
+    if (request.client is None):
+        clientip="0"
+    else:
+        clientip = request.client.host
     haship=hashlib.md5(str(clientip).encode()).hexdigest()
     FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
     FORMATTER = logging.Formatter(FORMATTER_STRING)
@@ -471,7 +525,10 @@ def change_task(request: Request, token:str,task_id: int,status:bool, db: Sessio
 def create_task_response(
     request: Request, token:str,task_id:int,item: tasksschemas.TaskResponseCreate, db: Session = Depends(get_db)
 ):
-    clientip = request.client.host
+    if (request.client is None):
+        clientip="0"
+    else:
+        clientip = request.client.host
     haship=hashlib.md5(str(clientip).encode()).hexdigest()
     FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
     FORMATTER = logging.Formatter(FORMATTER_STRING)
@@ -495,7 +552,10 @@ def create_task_response(
 
 @app.post("/task/responses/{response_id}/delete")
 def change_task(request: Request, token:str,response_id: int, db: Session = Depends(get_db)):
-    clientip = request.client.host
+    if (request.client is None):
+        clientip="0"
+    else:
+        clientip = request.client.host
     haship=hashlib.md5(str(clientip).encode()).hexdigest()
     FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
     FORMATTER = logging.Formatter(FORMATTER_STRING)
@@ -523,7 +583,10 @@ def change_task(request: Request, token:str,response_id: int, db: Session = Depe
 def get_task_responses(
     request: Request, token:str,task_id: int, db: Session = Depends(get_db)
 ):
-    clientip = request.client.host
+    if (request.client is None):
+        clientip="0"
+    else:
+        clientip = request.client.host
     haship=hashlib.md5(str(clientip).encode()).hexdigest()
     FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
     FORMATTER = logging.Formatter(FORMATTER_STRING)
@@ -542,7 +605,10 @@ def get_task_responses(
 
 @app.get("/responses", response_model=list[tasksschemas.TaskResponse])
 def read_task_responses(request: Request, token:str,skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    clientip = request.client.host
+    if (request.client is None):
+        clientip="0"
+    else:
+        clientip = request.client.host
     haship=hashlib.md5(str(clientip).encode()).hexdigest()
     FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
     FORMATTER = logging.Formatter(FORMATTER_STRING)
