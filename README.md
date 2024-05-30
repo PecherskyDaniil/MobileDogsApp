@@ -349,4 +349,5 @@ uvicorn src.main:app --host 0.0.0.0 --port 8000
 
 
 # Отправка логов на elastic с помощью filebeat
-![Чудо ELK](https://github.com/PecherskyDaniil/MobileDogsApp/assets/81502368/7f7fe99c-c626-43a2-a7f8-a0a9954b27cb)
+![Чудо ELK](https://github.com/PecherskyDaniil/MobileDogsApp/assets/81502368/8f545986-b602-448f-bb97-069aa63719ce)
+
