@@ -106,14 +106,13 @@
 ```
 
 ### Collar registration
-```/collar/register```
+```/collar/register?token=P9UISH12442KID8```
 
 + Request
 ```
 {
     "id":"2311",
     "ip":"122.32.12.33",
-    "accessToken": "P9UISH12442KID8"
 }
 ```
 
@@ -126,7 +125,7 @@
 ```
 
 ### Dog registration
-```/dogs/register```
+```/dogs/register?token=P9UISH12442KID8```
 
 + Request
 ```
@@ -134,7 +133,6 @@
     "name":"Bobik",
     "collar_id":"2311",
     "description":"Black bastard of German Shepherd and mongrel dog",
-    "accessToken": "P9UISH12442KID8"
 }
 ```
 
@@ -148,13 +146,12 @@
 ```
 
 ### Getting dog's status
-```/dogs/{dogs_id}/data```
+```/dogs/{dogs_id}/data?token=P9UISH12442KID8```
 
 + Request
 ```
 {
-    "dog_id":"12",
-    "accessToken": "P9UISH12442KID8"
+    "dog_id":"12"
 }
 ```
 
@@ -172,12 +169,11 @@
 ```
 
 ### Getting dog's list
-```/dogs/```
+```/dogs?token=P9UISH12442KID8```
 
 + Request
 ```
 {
-    "accessToken": "P9UISH12442KID8",
     "latitude":"37.23213",
     "longitude":"55.83231",
     "radius":1000
@@ -202,7 +198,7 @@
 ```
 
 ### Setting dog's data
-```/dogs/{dog_id}/data/&ip=```
+```/dogs/{dog_id}/data/?token=P9UISH12442KID8&ip=127.0.0.1```
 
 + Request
 ```
@@ -223,14 +219,13 @@
 ```
 
 ### Create task
-```/task/create```
+```/task/create?token=P9UISH12442KID8```
 
 + Request
 ```
 {
     "dog_id":"12",
-    "type":"feed",
-    "accessToken": "P9UISH12442KID8"
+    "type":"feed"
 }
 ```
 
@@ -244,13 +239,12 @@
 ```
 
 ### Send to verify task
-```/task/{task_id}/reponses/send```
+```/task/{task_id}/reponses/send?token=P9UISH12442KID8```
 
 + Request
 ```
 {
-    "proof":"Jvch1HJ.png",
-    "accessToken": "P9UISH12442KID8"
+    "proof":"Jvch1HJ.png"
 }
 ```
 
@@ -263,12 +257,11 @@
 ```
 
 ### Getting verify list
-```/task/{task_id}/responses/```
+```/task/{task_id}/responses?token=P9UISH12442KID8```
 
 + Request
 ```
 {
-    "accessToken": "P9UISH12442KID8"
 }
 ```
 
@@ -293,13 +286,12 @@
 ```
 
 ### Task status update
-```/task/{task_id}/change_status```
+```/task/{task_id}/change_status?token=P9UISH12442KID8```
 
 + Request
 ```
 {
-    "status":"complete",
-    "accessToken": "P9UISH12442KID8"
+    "status":1
 }
 ```
 
@@ -312,12 +304,11 @@
 ```
 
 ### Response delete
-```/task/responses/{response_id}/delete```
+```/task/responses/{response_id}/delete?token=P9UISH12442KID8```
 
 + Request
 ```
 {
-    "accessToken": "P9UISH12442KID8"
 }
 ```
 
