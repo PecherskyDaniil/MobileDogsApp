@@ -140,7 +140,7 @@ User authorization
 Collar registration
 ^^^^^^^^^^^^^^^^^^^
 
-``/collar/register``
+``/collar/register?token=P9UISH12442KID8``
 
 
 * 
@@ -151,7 +151,6 @@ Collar registration
      {
        "id":"2311",
        "ip":"122.32.12.33",
-       "accessToken": "P9UISH12442KID8"
      }
 
 * 
@@ -167,7 +166,7 @@ Collar registration
 Dog registration
 ^^^^^^^^^^^^^^^^
 
-``/dogs/register``
+``/dogs/register?token=P9UISH12442KID8``
 
 
 * 
@@ -179,7 +178,6 @@ Dog registration
        "name":"Bobik",
        "collar_id":"2311",
        "description":"Black bastard of German Shepherd and mongrel dog",
-       "accessToken": "P9UISH12442KID8"
      }
 
 * 
@@ -196,7 +194,7 @@ Dog registration
 Getting dog's status
 ^^^^^^^^^^^^^^^^^^^^
 
-``/dogs/{dogs_id}/data``
+``/dogs/{dogs_id}/data?token=P9UISH12442KID8``
 
 
 * 
@@ -205,8 +203,7 @@ Getting dog's status
   .. code-block::
 
      {
-       "dog_id":"12",
-       "accessToken": "P9UISH12442KID8"
+       "dog_id":"12"
      }
 
 * 
@@ -227,7 +224,7 @@ Getting dog's status
 Getting dog's list
 ^^^^^^^^^^^^^^^^^^
 
-``/dogs/``
+``/dogs?token=P9UISH12442KID8``
 
 
 * 
@@ -236,7 +233,6 @@ Getting dog's list
   .. code-block::
 
      {
-       "accessToken": "P9UISH12442KID8",
        "latitude":"37.23213",
        "longitude":"55.83231",
        "radius":1000
@@ -264,7 +260,7 @@ Getting dog's list
 Setting dog's data
 ^^^^^^^^^^^^^^^^^^
 
-``/dogs/{dog_id}/data/&ip=``
+``/dogs/{dog_id}/data/?token=P9UISH12442KID8&ip=127.0.0.1``
 
 
 * 
@@ -292,7 +288,7 @@ Setting dog's data
 Create task
 ^^^^^^^^^^^
 
-``/task/create``
+``/task/create?token=P9UISH12442KID8``
 
 
 * 
@@ -302,8 +298,7 @@ Create task
 
      {
        "dog_id":"12",
-       "type":"feed",
-       "accessToken": "P9UISH12442KID8"
+       "type":"feed"
      }
 
 * 
@@ -320,7 +315,7 @@ Create task
 Send to verify task
 ^^^^^^^^^^^^^^^^^^^
 
-``/task/{task_id}/reponses/send``
+``/task/{task_id}/reponses/send?token=P9UISH12442KID8``
 
 
 * 
@@ -329,8 +324,7 @@ Send to verify task
   .. code-block::
 
      {
-       "proof":"Jvch1HJ.png",
-       "accessToken": "P9UISH12442KID8"
+       "proof":"Jvch1HJ.png"
      }
 
 * 
@@ -346,7 +340,7 @@ Send to verify task
 Getting verify list
 ^^^^^^^^^^^^^^^^^^^
 
-``/task/{task_id}/responses/``
+``/task/{task_id}/responses?token=P9UISH12442KID8``
 
 
 * 
@@ -355,7 +349,6 @@ Getting verify list
   .. code-block::
 
      {
-       "accessToken": "P9UISH12442KID8"
      }
 
 * 
@@ -383,7 +376,7 @@ Getting verify list
 Task status update
 ^^^^^^^^^^^^^^^^^^
 
-``/task/{task_id}/change_status``
+``/task/{task_id}/change_status?token=P9UISH12442KID8``
 
 
 * 
@@ -392,8 +385,7 @@ Task status update
   .. code-block::
 
      {
-       "status":"complete",
-       "accessToken": "P9UISH12442KID8"
+       "status":1
      }
 
 * 
@@ -409,7 +401,7 @@ Task status update
 Response delete
 ^^^^^^^^^^^^^^^
 
-``/task/responses/{response_id}/delete``
+``/task/responses/{response_id}/delete?token=P9UISH12442KID8``
 
 
 * 
@@ -418,7 +410,6 @@ Response delete
   .. code-block::
 
      {
-       "accessToken": "P9UISH12442KID8"
      }
 
 * 
@@ -449,3 +440,12 @@ Response delete
 
       uvicorn src.main:app --host 0.0.0.0 --port 8000
    Для запуска тестов установите pytest и запустите в основной папке. Учтите что возможно придется запустить pytest дважды, поэтому не пугайтесь если после первого запуска вам выдаст ошибку.
+
+Отправка логов на elastic с помощью filebeat
+============================================
+
+
+.. image:: https://github.com/PecherskyDaniil/MobileDogsApp/assets/81502368/8f545986-b602-448f-bb97-069aa63719ce
+   :target: https://github.com/PecherskyDaniil/MobileDogsApp/assets/81502368/8f545986-b602-448f-bb97-069aa63719ce
+   :alt: Чудо ELK
+

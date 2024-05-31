@@ -164,13 +164,12 @@
 </section>
 <section id="collar-registration">
 <h3>Collar registration<a class="headerlink" href="#collar-registration" title="Link to this heading">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">/collar/register</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">/collar/register?token=P9UISH12442KID8</span></code></p>
 <ul>
 <li><p>Request</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s2">&quot;id&quot;</span><span class="p">:</span><span class="s2">&quot;2311&quot;</span><span class="p">,</span>
   <span class="s2">&quot;ip&quot;</span><span class="p">:</span><span class="s2">&quot;122.32.12.33&quot;</span><span class="p">,</span>
-  <span class="s2">&quot;accessToken&quot;</span><span class="p">:</span> <span class="s2">&quot;P9UISH12442KID8&quot;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -187,14 +186,13 @@
 </section>
 <section id="dog-registration">
 <h3>Dog registration<a class="headerlink" href="#dog-registration" title="Link to this heading">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">/dogs/register</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">/dogs/register?token=P9UISH12442KID8</span></code></p>
 <ul>
 <li><p>Request</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s2">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;Bobik&quot;</span><span class="p">,</span>
   <span class="s2">&quot;collar_id&quot;</span><span class="p">:</span><span class="s2">&quot;2311&quot;</span><span class="p">,</span>
   <span class="s2">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;Black bastard of German Shepherd and mongrel dog&quot;</span><span class="p">,</span>
-  <span class="s2">&quot;accessToken&quot;</span><span class="p">:</span> <span class="s2">&quot;P9UISH12442KID8&quot;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -212,12 +210,11 @@
 </section>
 <section id="getting-dog-s-status">
 <h3>Getting dog’s status<a class="headerlink" href="#getting-dog-s-status" title="Link to this heading">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">/dogs/{dogs_id}/data</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">/dogs/{dogs_id}/data?token=P9UISH12442KID8</span></code></p>
 <ul>
 <li><p>Request</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="s2">&quot;dog_id&quot;</span><span class="p">:</span><span class="s2">&quot;12&quot;</span><span class="p">,</span>
-  <span class="s2">&quot;accessToken&quot;</span><span class="p">:</span> <span class="s2">&quot;P9UISH12442KID8&quot;</span>
+  <span class="s2">&quot;dog_id&quot;</span><span class="p">:</span><span class="s2">&quot;12&quot;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -239,11 +236,10 @@
 </section>
 <section id="getting-dog-s-list">
 <h3>Getting dog’s list<a class="headerlink" href="#getting-dog-s-list" title="Link to this heading">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">/dogs/</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">/dogs?token=P9UISH12442KID8</span></code></p>
 <ul>
 <li><p>Request</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="s2">&quot;accessToken&quot;</span><span class="p">:</span> <span class="s2">&quot;P9UISH12442KID8&quot;</span><span class="p">,</span>
   <span class="s2">&quot;latitude&quot;</span><span class="p">:</span><span class="s2">&quot;37.23213&quot;</span><span class="p">,</span>
   <span class="s2">&quot;longitude&quot;</span><span class="p">:</span><span class="s2">&quot;55.83231&quot;</span><span class="p">,</span>
   <span class="s2">&quot;radius&quot;</span><span class="p">:</span><span class="mi">1000</span>
@@ -272,7 +268,7 @@
 </section>
 <section id="setting-dog-s-data">
 <h3>Setting dog’s data<a class="headerlink" href="#setting-dog-s-data" title="Link to this heading">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">/dogs/{dog_id}/data/&amp;ip=</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">/dogs/{dog_id}/data/?token=P9UISH12442KID8&amp;ip=127.0.0.1</span></code></p>
 <ul>
 <li><p>Request</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
@@ -296,13 +292,12 @@
 </section>
 <section id="create-task">
 <h3>Create task<a class="headerlink" href="#create-task" title="Link to this heading">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">/task/create</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">/task/create?token=P9UISH12442KID8</span></code></p>
 <ul>
 <li><p>Request</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
   <span class="s2">&quot;dog_id&quot;</span><span class="p">:</span><span class="s2">&quot;12&quot;</span><span class="p">,</span>
-  <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;feed&quot;</span><span class="p">,</span>
-  <span class="s2">&quot;accessToken&quot;</span><span class="p">:</span> <span class="s2">&quot;P9UISH12442KID8&quot;</span>
+  <span class="s2">&quot;type&quot;</span><span class="p">:</span><span class="s2">&quot;feed&quot;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -320,12 +315,11 @@
 </section>
 <section id="send-to-verify-task">
 <h3>Send to verify task<a class="headerlink" href="#send-to-verify-task" title="Link to this heading">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">/task/{task_id}/reponses/send</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">/task/{task_id}/reponses/send?token=P9UISH12442KID8</span></code></p>
 <ul>
 <li><p>Request</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="s2">&quot;proof&quot;</span><span class="p">:</span><span class="s2">&quot;Jvch1HJ.png&quot;</span><span class="p">,</span>
-  <span class="s2">&quot;accessToken&quot;</span><span class="p">:</span> <span class="s2">&quot;P9UISH12442KID8&quot;</span>
+  <span class="s2">&quot;proof&quot;</span><span class="p">:</span><span class="s2">&quot;Jvch1HJ.png&quot;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -342,11 +336,10 @@
 </section>
 <section id="getting-verify-list">
 <h3>Getting verify list<a class="headerlink" href="#getting-verify-list" title="Link to this heading">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">/task/{task_id}/responses/</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">/task/{task_id}/responses?token=P9UISH12442KID8</span></code></p>
 <ul>
 <li><p>Request</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="s2">&quot;accessToken&quot;</span><span class="p">:</span> <span class="s2">&quot;P9UISH12442KID8&quot;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -375,12 +368,11 @@
 </section>
 <section id="task-status-update">
 <h3>Task status update<a class="headerlink" href="#task-status-update" title="Link to this heading">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">/task/{task_id}/change_status</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">/task/{task_id}/change_status?token=P9UISH12442KID8</span></code></p>
 <ul>
 <li><p>Request</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="s2">&quot;status&quot;</span><span class="p">:</span><span class="s2">&quot;complete&quot;</span><span class="p">,</span>
-  <span class="s2">&quot;accessToken&quot;</span><span class="p">:</span> <span class="s2">&quot;P9UISH12442KID8&quot;</span>
+  <span class="s2">&quot;status&quot;</span><span class="p">:</span><span class="mi">1</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -397,11 +389,10 @@
 </section>
 <section id="response-delete">
 <h3>Response delete<a class="headerlink" href="#response-delete" title="Link to this heading">¶</a></h3>
-<p><code class="docutils literal notranslate"><span class="pre">/task/responses/{response_id}/delete</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">/task/responses/{response_id}/delete?token=P9UISH12442KID8</span></code></p>
 <ul>
 <li><p>Request</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
-  <span class="s2">&quot;accessToken&quot;</span><span class="p">:</span> <span class="s2">&quot;P9UISH12442KID8&quot;</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -439,6 +430,10 @@
 </ol>
 </section>
 </section>
+</section>
+<section id="elastic-filebeat">
+<h1>Отправка логов на elastic с помощью filebeat<a class="headerlink" href="#elastic-filebeat" title="Link to this heading">¶</a></h1>
+<a class="reference external image-reference" href="https://github.com/PecherskyDaniil/MobileDogsApp/assets/81502368/8f545986-b602-448f-bb97-069aa63719ce"><img alt="Чудо ELK" src="https://github.com/PecherskyDaniil/MobileDogsApp/assets/81502368/8f545986-b602-448f-bb97-069aa63719ce" /></a>
 </section>
 
 
