@@ -23,12 +23,13 @@ tasksmodels.Base.metadata.create_all(bind=engine)
 #hashhost=hashlib.md5(socket.gethostname().encode()).hexdigest()
 
 #logger parameters
-#FORMATTER_STRING = "%(asctime)s - "+hashhost+" - %(name)s - %(levelname)s - %(message)s"
-#FORMATTER = logging.Formatter(FORMATTER_STRING)
+FORMATTER_STRING = "%(asctime)s - %(haship)s - %(name)s - %(levelname)s - %(message)s"
+FORMATTER = logging.Formatter(FORMATTER_STRING)
 LOG_FILE = "./mobiledogsapplogs.log"
 
 #function for logger creating
-def get_logger(logger_name,FORMATTER):
+def get_logger(logger_name,haship):
+    extra = {'haship':haship}
     logger = logging.getLogger(logger_name)
     logger.setLevel(logging.DEBUG)
     
@@ -39,7 +40,7 @@ def get_logger(logger_name,FORMATTER):
     file_handler = TimedRotatingFileHandler(LOG_FILE, when='midnight')
     file_handler.setFormatter(FORMATTER)
     logger.addHandler(file_handler)
-
+    logger = logging.LoggerAdapter(logger, extra)
     return logger
 
 
@@ -61,9 +62,7 @@ def create_user(request: Request, user: usersschemas.UserCreate, db: Session = D
     else:
         ip = request.client.host
     haship=hashlib.md5(str(ip).encode()).hexdigest()
-    FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
-    FORMATTER = logging.Formatter(FORMATTER_STRING)
-    logger = get_logger("create_user",FORMATTER)
+    logger = get_logger("create_user",haship)
 
     logger.info("Sent request to register new user")
     db_user = crud.get_user_by_email(db, email=user.email)
@@ -95,10 +94,7 @@ def login_user(request: Request, nickname:str,password:str, db: Session = Depend
     else:
         ip = request.client.host
     haship=hashlib.md5(str(ip).encode()).hexdigest()
-    FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
-    FORMATTER = logging.Formatter(FORMATTER_STRING)
-    logger = get_logger("login_user",FORMATTER)
-
+    logger = get_logger("create_user",haship)
     logger.info("Sent request to login")
     db_user=crud.get_users_token(db=db,nickname=nickname,password=password)
     if db_user is None:
@@ -116,9 +112,7 @@ def read_users(request: Request, token:str,skip: int = 0, limit: int = 100, db: 
     else:
         ip = request.client.host
     haship=hashlib.md5(str(ip).encode()).hexdigest()
-    FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
-    FORMATTER = logging.Formatter(FORMATTER_STRING)
-    logger = get_logger("read_users",FORMATTER)
+    logger = get_logger("create_user",haship)
     logger.info(str(ip)+" Sent request to get list of users")
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
@@ -139,9 +133,7 @@ def read_user(request: Request, token:str,user_id: int, db: Session = Depends(ge
     else:
         ip = request.client.host
     haship=hashlib.md5(str(ip).encode()).hexdigest()
-    FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
-    FORMATTER = logging.Formatter(FORMATTER_STRING)
-    logger = get_logger("read_user_by_id",FORMATTER)
+    logger = get_logger("create_user",haship)
     logger.info("Sent request to get user by id "+str(user_id))
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
@@ -165,9 +157,7 @@ def create_dog(request: Request, token:str,dog: dogsschemas.DogCreate, db: Sessi
     else:
         ip = request.client.host
     haship=hashlib.md5(str(ip).encode()).hexdigest()
-    FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
-    FORMATTER = logging.Formatter(FORMATTER_STRING)
-    logger = get_logger("create_dog",FORMATTER)
+    logger = get_logger("create_user",haship)
     logger.info("Sent request to register new dog")
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
@@ -199,9 +189,7 @@ def read_dogs(request: Request, token:str,near:bool=False,latitude:str ="0", lon
     else:
         ip = request.client.host
     haship=hashlib.md5(str(ip).encode()).hexdigest()
-    FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
-    FORMATTER = logging.Formatter(FORMATTER_STRING)
-    logger = get_logger("read_dogs",FORMATTER)
+    logger = get_logger("create_user",haship)
 
     logger.info("Sent request to get list of dogs")
     tokencheck = crud.get_user_by_token(db, token=token)
@@ -225,9 +213,7 @@ def read_dog(request: Request, token:str,dog_id: int, db: Session = Depends(get_
     else:
         ip = request.client.host
     haship=hashlib.md5(str(ip).encode()).hexdigest()
-    FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
-    FORMATTER = logging.Formatter(FORMATTER_STRING)
-    logger = get_logger("read_dog_by_id",FORMATTER)
+    logger = get_logger("create_user",haship)
     logger.info("Sent request to get dog by id")
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
@@ -250,9 +236,8 @@ def create_collar(request: Request, token:str,collar: dogsschemas.CollarCreate, 
     else:
         ip = request.client.host
     haship=hashlib.md5(str(ip).encode()).hexdigest()
-    FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
-    FORMATTER = logging.Formatter(FORMATTER_STRING)
-    logger = get_logger("create_collar",FORMATTER)
+    logger = get_logger("create_user",haship)
+
     logger.info("Sent request to register collar")
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
@@ -278,9 +263,7 @@ def read_collars(request: Request, token:str,skip: int = 0, limit: int = 100, db
     else:
         ip = request.client.host
     haship=hashlib.md5(str(ip).encode()).hexdigest()
-    FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
-    FORMATTER = logging.Formatter(FORMATTER_STRING)
-    logger = get_logger("read_collars",FORMATTER)
+    logger = get_logger("create_user",haship)
     logger.info("Sent request to get collars")
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
@@ -300,9 +283,7 @@ def read_collar(request: Request, token:str,collar_id: int, db: Session = Depend
     else:
         ip = request.client.host
     haship=hashlib.md5(str(ip).encode()).hexdigest()
-    FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
-    FORMATTER = logging.Formatter(FORMATTER_STRING)
-    logger = get_logger("read_collar_by_id",FORMATTER)
+    logger = get_logger("create_user",haship)
     logger.info("Sent request to get collar by id")
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
@@ -326,9 +307,7 @@ def read_collar(request: Request, collar_ip:str,token:str, db: Session = Depends
     else:
         ip = request.client.host
     haship=hashlib.md5(str(ip).encode()).hexdigest()
-    FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
-    FORMATTER = logging.Formatter(FORMATTER_STRING)
-    logger = get_logger("read_collar_by_ip",FORMATTER)
+    logger = get_logger("create_user",haship)
     logger.info("Sent request to get collar by ip")
     tokencheck = crud.get_user_by_token(db, token=token)
     if tokencheck is None:
@@ -354,10 +333,8 @@ def create_data_for_dog(
         clientip="0"
     else:
         clientip = request.client.host
-    haship=hashlib.md5(str(clientip).encode()).hexdigest()
-    FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
-    FORMATTER = logging.Formatter(FORMATTER_STRING)
-    logger = get_logger("create_data_for_dog",FORMATTER)
+    haship=hashlib.md5(str(ip).encode()).hexdigest()
+    logger = get_logger("create_user",haship)
     logger.info("Sent request to post data about dog using ip")
     db_collar = crud.get_collar_by_ip(db, ip=ip)
     if db_collar is None:
@@ -374,10 +351,8 @@ def get_data_for_dog(
         clientip="0"
     else:
         clientip = request.client.host
-    haship=hashlib.md5(str(clientip).encode()).hexdigest()
-    FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
-    FORMATTER = logging.Formatter(FORMATTER_STRING)
-    logger = get_logger("get_data_for_dog",FORMATTER)
+    haship=hashlib.md5(str(ip).encode()).hexdigest()
+    logger = get_logger("create_user",haship)
     logger.info("Sent request to get dog status")
 
     tokencheck = crud.get_user_by_token(db, token=token)
@@ -396,10 +371,8 @@ def read_dogsdata(request: Request, token:str,skip: int = 0, limit: int = 100, d
         clientip="0"
     else:
         clientip = request.client.host
-    haship=hashlib.md5(str(clientip).encode()).hexdigest()
-    FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
-    FORMATTER = logging.Formatter(FORMATTER_STRING)
-    logger = get_logger("read_dogs_data",FORMATTER)
+    haship=hashlib.md5(str(ip).encode()).hexdigest()
+    logger = get_logger("create_user",haship)
     logger.info("Sent request to get dogs data")
     
     tokencheck = crud.get_user_by_token(db, token=token)
@@ -418,10 +391,8 @@ def create_task(request: Request, token:str,task: tasksschemas.TaskCreate, db: S
         clientip="0"
     else:
         clientip = request.client.host
-    haship=hashlib.md5(str(clientip).encode()).hexdigest()
-    FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
-    FORMATTER = logging.Formatter(FORMATTER_STRING)
-    logger = get_logger("create_task",FORMATTER)
+    haship=hashlib.md5(str(ip).encode()).hexdigest()
+    logger = get_logger("create_user",haship)
     logger.info("Sent request to create new task")
 
     tokencheck = crud.get_user_by_token(db, token=token)
@@ -448,10 +419,8 @@ def read_tasks(request: Request, token:str,skip: int = 0, limit: int = 100, db: 
         clientip="0"
     else:
         clientip = request.client.host
-    haship=hashlib.md5(str(clientip).encode()).hexdigest()
-    FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
-    FORMATTER = logging.Formatter(FORMATTER_STRING)
-    logger = get_logger("read_tasks",FORMATTER)
+    haship=hashlib.md5(str(ip).encode()).hexdigest()
+    logger = get_logger("create_user",haship)
     logger.info("Sent request to get info about task")
     
     tokencheck = crud.get_user_by_token(db, token=token)
@@ -471,10 +440,8 @@ def read_task(request: Request, token:str,task_id: int, db: Session = Depends(ge
         clientip="0"
     else:
         clientip = request.client.host
-    haship=hashlib.md5(str(clientip).encode()).hexdigest()
-    FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
-    FORMATTER = logging.Formatter(FORMATTER_STRING)
-    logger = get_logger("read_task_by_id",FORMATTER)
+    haship=hashlib.md5(str(ip).encode()).hexdigest()
+    logger = get_logger("create_user",haship)
     logger.info("Sent request to get info about task by id")
 
     tokencheck = crud.get_user_by_token(db, token=token)
@@ -498,10 +465,8 @@ def change_task(request: Request, token:str,task_id: int,status:bool, db: Sessio
         clientip="0"
     else:
         clientip = request.client.host
-    haship=hashlib.md5(str(clientip).encode()).hexdigest()
-    FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
-    FORMATTER = logging.Formatter(FORMATTER_STRING)
-    logger = get_logger("change_task",FORMATTER)
+    haship=hashlib.md5(str(ip).encode()).hexdigest()
+    logger = get_logger("create_user",haship)
     logger.info("Sent request to change status of task with id")
 
     tokencheck = crud.get_user_by_token(db, token=token)
@@ -529,10 +494,8 @@ def create_task_response(
         clientip="0"
     else:
         clientip = request.client.host
-    haship=hashlib.md5(str(clientip).encode()).hexdigest()
-    FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
-    FORMATTER = logging.Formatter(FORMATTER_STRING)
-    logger = get_logger("create_task_response",FORMATTER)
+    haship=hashlib.md5(str(ip).encode()).hexdigest()
+    logger = get_logger("create_user",haship)
     logger.info("Sent request to sent task response")
 
     tokencheck = crud.get_user_by_token(db, token=token)
@@ -556,10 +519,8 @@ def change_task(request: Request, token:str,response_id: int, db: Session = Depe
         clientip="0"
     else:
         clientip = request.client.host
-    haship=hashlib.md5(str(clientip).encode()).hexdigest()
-    FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
-    FORMATTER = logging.Formatter(FORMATTER_STRING)
-    logger = get_logger("delete_response",FORMATTER)
+    haship=hashlib.md5(str(ip).encode()).hexdigest()
+    logger = get_logger("create_user",haship)
     logger.info("Sent request to delete task response")
 
     tokencheck = crud.get_user_by_token(db, token=token)
@@ -587,10 +548,8 @@ def get_task_responses(
         clientip="0"
     else:
         clientip = request.client.host
-    haship=hashlib.md5(str(clientip).encode()).hexdigest()
-    FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
-    FORMATTER = logging.Formatter(FORMATTER_STRING)
-    logger = get_logger("get_task_responses",FORMATTER)
+    haship=hashlib.md5(str(ip).encode()).hexdigest()
+    logger = get_logger("create_user",haship)
     logger.info("Sent request to get all responses to one task")
 
     tokencheck = crud.get_user_by_token(db, token=token)
@@ -609,10 +568,8 @@ def read_task_responses(request: Request, token:str,skip: int = 0, limit: int = 
         clientip="0"
     else:
         clientip = request.client.host
-    haship=hashlib.md5(str(clientip).encode()).hexdigest()
-    FORMATTER_STRING = "%(asctime)s - "+haship+" - %(name)s - %(levelname)s - %(message)s"
-    FORMATTER = logging.Formatter(FORMATTER_STRING)
-    logger = get_logger("read_all_responses",FORMATTER)
+    haship=hashlib.md5(str(ip).encode()).hexdigest()
+    logger = get_logger("create_user",haship)
     logger.info("Sent request to get all responses")
     
     tokencheck = crud.get_user_by_token(db, token=token)
