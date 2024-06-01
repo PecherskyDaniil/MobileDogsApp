@@ -1,6 +1,17 @@
 from fastapi.testclient import TestClient
+from .testdatabase import TestingSessionLocal
 import random
-from ..src.main import app
+from ..src.main import app,get_db
+
+def override_get_db():
+    try:
+        db = TestingSessionLocal()
+        yield db
+    finally:
+        db.close()
+
+
+app.dependency_overrides[get_db] = override_get_db
 
 client = TestClient(app)
 
@@ -30,7 +41,7 @@ def test_user_register_email_error():
 def test_user_register_phone_error():
     newid=str(random.randint(1,10000))
     randphone=str(random.randint(10000000000,99999999999))
-    response = client.post("/users/register",json={"nickname":"testuser"+newid,"email":"testemail"+newid,"phone":"00000000000","password":"testpassword"})
+    response = client.post("/users/register",json={"nickname":"testuser"+newid,"email":"testemail2"+newid,"phone":"00000000000","password":"testpassword"})
     response = client.post("/users/register",json={"nickname":"testuser"+newid,"email":"testemail"+newid,"phone":"00000000000","password":"testpassword"})
     assert response.status_code == 400
     assert response.json()["detail"] == "Phone already registered"

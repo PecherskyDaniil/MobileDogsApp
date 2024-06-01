@@ -1,10 +1,26 @@
 from fastapi.testclient import TestClient
+from .testdatabase import TestingSessionLocal
 import random
 import json
 from datetime import datetime
-from ..src.main import app
+from ..src.main import app, get_db
+
+def override_get_db():
+    try:
+        db = TestingSessionLocal()
+        yield db
+    finally:
+        db.close()
+
+
+app.dependency_overrides[get_db] = override_get_db
 
 client = TestClient(app)
+
+pnewid=str(random.randint(1,10000))
+prandphone=str(random.randint(10000000000,99999999999))
+presponse = client.post("/users/register",json={"nickname":"testuserzero","email":"testemail"+pnewid,"phone":prandphone,"password":"testpassword"})
+
 
 def test_task_create():
     token = client.post("/users/login?nickname=testuserzero&password=testpassword")
